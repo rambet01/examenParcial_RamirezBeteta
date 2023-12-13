@@ -2,6 +2,7 @@ from django.db import models
 
 # Create your models here.
 class tiendaInfo(models.Model):
+    nombreTienda = models.CharField(max_length=32, blank=True, null=True)
     direccionTienda = models.CharField(max_length=32, blank=True, null=True)
     provinciaTienda = models.CharField(max_length=32, blank=True, null=True)
     regionTienda = models.CharField(max_length=32, blank=True, null=True)

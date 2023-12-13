@@ -2,34 +2,46 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse
 from .models import tiendaInfo, productoInfo
+from django.shortcuts import get_object_or_404
 
 # Create your views here.
 def index(request):
-    return HttpResponse('Bienvenidos')
+    return render(request, 'tiendas.html')
 def productos(request):
-    return HttpResponse('Productos')
+    return render(request,'productos.html',{
+        'lista_productos':productoInfo.objects.all()
+    })
 def tiendas(request):
-    return HttpResponse('Tiendas')
+    return render(request,'tiendas.html',{
+        'lista_tiendas':tiendaInfo.objects.all()
+    })
 def detTiendas(request):
     return HttpResponse('Detalle de Tiendas')
 
 def ingresoTiendas(request):
     print(request.POST)
     if request.method =='POST':
+        nombreTie = request.POST.get('nombre')
         direccionTie = request.POST.get('direccion')
         provinciaTie = request.POST.get('provincia')
         regionTie = request.POST.get('region')
         fechaCreacionTie = request.POST.get('fechaCreacion')
         telefonoContactoTie = request.POST.get('telefonoContacto')
         tiendaInfo.objects.create(
+            nombreTienda = nombreTie,
             direccionTienda = direccionTie,
             provinciaTienda = provinciaTie,
             regionTienda = regionTie,
             fechaCreacionTienda = fechaCreacionTie,
             telefonoContactoTienda = telefonoContactoTie
         )
-        return HttpResponseRedirect(reverse('app2:inicio'))
+        return HttpResponseRedirect(reverse('gestionTienda:tiendas'))
     return HttpResponse("Se recibio correctamente")
+def eliminarTienda(request,tienda_id):
+    objAlmacen = tiendaInfo.objects.get(id=tienda_id)
+    objAlmacen.delete()
+    return HttpResponseRedirect(reverse('gestionTienda:tiendas'))
+
 
 def ingresoProductos(request):
     print(request.POST)
@@ -44,5 +56,5 @@ def ingresoProductos(request):
             pvProducto = precioVentaPro,
             cantidadProducto = cantidadPro,
         )
-        return HttpResponseRedirect(reverse('app2:inicio'))
+        return HttpResponseRedirect(reverse('gestionTienda:productos'))
     return HttpResponse("Se recibio correctamente")

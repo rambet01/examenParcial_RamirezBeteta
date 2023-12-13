@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Tiendas</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="/gestionTienda">Gestión de Tiendas</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="/gestionTienda">Tiendas</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/gestionTienda/productos">Productos</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    
+    <main class="container py-3">
+    
+      <div class="row">
+        <div class="col-md-12">
+          <h2>Tiendas</h2>
+    
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>ID</th>
+                <th>Nombre de la Tienda</th>
+                <th>Dirección de la Tienda</th>
+                <th>Provincia</th>
+                <th>Región</th>
+                <th>Fecha de Creación de la Tienda</th>
+                <th>Telefono de Contacto</th>
+                <th>Opción</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for informacion_tienda in lista_tiendas %}   
+                <tr>
+                    <td>{{informacion_tienda.id}}</td>
+                    <td>{{informacion_tienda.nombreTienda}}</td>
+                    <td>{{informacion_tienda.direccionTienda}}</td>
+                    <td>{{informacion_tienda.provinciaTienda}}</td>
+                    <td>{{informacion_tienda.regionTienda}}</td>
+                    <td>{{informacion_tienda.fechaCreacionTienda}}</td>
+                    <td>{{informacion_tienda.telefonoContactoTienda}}</td>
+                    <td>
+                        <a class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#verUsuarios" id="{{ informacion_tienda.id }}"><i class="fa-solid fa-eye"></i></a>
+                        &nbsp;
+                        <a class="btn btn-danger" href="{% url 'gestionTienda:eliminarTienda' informacion_tienda.id %}"><i class="fa-solid fa-trash-can"></i></a>
+                    </td>
+                </tr>
+                {% endfor %} 
+            </tbody>
+          </table>
+    
+          <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalCrearTienda">Crear tienda</button>
+        </div>
+      </div>
+    
+      <div class="modal fade" id="modalCrearTienda" tabindex="-1" aria-labelledby="modalCrearTiendaLabel" aria-hidden="true">
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="modalCrearTiendaLabel">Crear tienda</h5>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="{% url 'gestionTienda:ingresoTiendas' %}" method="post">
+                {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="nombre" class="form-label">Nombre de Tienda</label>
+                        <input type="text" class="form-control" id="nombre" name="nombre" placeholder="Ingrese el nombre de la Tienda">
+                    </div>
+                    <div class="mb-3">
+                        <label for="direccion" class="form-label">Direccion</label>
+                        <input type="text" class="form-control" id="direccion" name="direccion" placeholder="Ingrese su dirección">
+                    </div>
+                    <div class="mb-3">
+                        <label for="provincia" class="form-label">Provincia</label>
+                        <input type="text" class="form-control" id="provincia" name="provincia" placeholder="Ingrese la provincia">
+                    </div>
+                    <div class="mb-3">
+                        <label for="region" class="form-label">Region</label>
+                        <input type="text" class="form-control" id="region" name="region" placeholder="Ingrese la región">
+                    </div>
+                    <div class="mb-3">
+                        <label for="fechaCreacion" class="form-label">Fecha de Creación</label>
+                        <input type="text" class="form-control" id="fechaCreacion" name="fechaCreacion" placeholder="Ingrese la fecha de creación">
+                    </div>
+                    <div class="mb-3">
+                        <label for="telefonoContacto" class="form-label">Telefono de Contacto</label>
+                        <input type="text" class="form-control" id="telefonoContacto" name="telefonoContacto" placeholder="Ingrese su Telefono">
+                    </div>                    
+                    <button type="submit" class="btn btn-primary">Registrar</button>
+                </form>
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+            </div>
+          </div>
+        </div>
+      </div>
+  </main>
+
+
+  <footer class="text-center text-muted py-3">
+    <p>Copyright © 2023</p>
+  </footer>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>

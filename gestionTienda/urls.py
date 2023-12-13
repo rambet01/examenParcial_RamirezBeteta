@@ -4,10 +4,11 @@ from . import views
 app_name = 'gestionTienda'
 
 urlpatterns = [
-   path("", views.index, name='index'),
+   path("", views.tiendas, name='tiendas'),
    path("productos", views.productos, name='productos'),
    path("tiendas", views.tiendas, name='tiendas'),
    path("detTiendas", views.detTiendas, name='detTiendas'),
    path("ingresoTiendas", views.ingresoTiendas, name='ingresoTiendas'),
+   path('eliminarTienda/<int:tienda_id>/', views.eliminarTienda, name='eliminarTienda'),
    path("ingresoProductos", views.ingresoProductos, name='ingresoProductos')
 ]
