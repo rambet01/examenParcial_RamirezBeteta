@@ -53,11 +53,9 @@
                     <td>{{informacion_producto.codigoProducto}}</td>
                     <td>{{informacion_producto.pvProducto}}</td>
                     <td>{{informacion_producto.cantidadProducto}}</td>
-                    <td>{{informacion_producto.tiendaRelacionado.id}}</td>
+                    <td>{{informacion_producto.tiendaRelacionado.nombreTienda}}</td>
                     <td>
-                        <a class="btn btn-warning"  data-bs-toggle="modal" data-bs-target="#verUsuarios" id="{{ informacion_producto.id }}"><i class="fa-solid fa-eye"></i></a>
-                        &nbsp;
-                        <a class="btn btn-danger" href="{% url 'gestionTienda:eliminarTienda' informacion_producto.id %}"><i class="fa-solid fa-trash-can"></i></a>
+                        <a class="btn btn-danger" href="{% url 'gestionTienda:eliminarProducto' informacion_producto.id %}"><i class="fa-solid fa-trash-can"></i></a>
                     </td>
                 </tr>
                 {% endfor %} 
@@ -94,7 +92,11 @@
                         </div>
                         <div class="mb-3">
                             <label for="tienda" class="form-label">Tienda</label>
-                            <input type="text" class="form-control" id="tienda" name="tienda" placeholder="Selecciona la Tienda">
+                            <select name="tienda" class="form-select">
+                                {% for informacion_tienda in lista_tiendas %}
+                                    <option value="{{ informacion_tienda.id }}">{{ informacion_tienda.nombreTienda }}</option>
+                                {% endfor %}
+                            </select>
                         </div>            
                         <button type="submit" class="btn btn-primary">Registrar</button>
                     </form>
